@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Visual Instruction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', Times, serif;
+            color: #333;
+            line-height: 1.6;
+            margin: 0 auto;
+            background-color: #f8f9fa;
+        }
+        
+        header {
+            background-color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0px;
+            color: #1E98DA;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .video-gallery {
+            margin-top: 0px;
+        }
+        
+        .video-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        
+        .video-card {
+            width: 30%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+        }
+        
+        .video-container video {
+            width: 100%;
+            border-radius: 15px;
+            display: block;
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .play-button:before {
+            content: "";
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid #333;
+            margin-left: 5px;
+        }
+        
+        .video-title {
+            font-size: 0.9rem;
+            margin: 15px;
+            text-align: center;
+        }
+        
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .btn-control {
+            background: #5BC4EA;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-control:hover {
+            background: #4AA8D1;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 0px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .video-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .video-card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        .feature {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color:#C79472
+        }
+        
+        .feature-text {
+            flex: 1;
+        }
+        
+        .feature-text h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color:#333
+        }
+        
+        .feature-text p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .buttons {
+            margin-top: 30px;
+        }
+        
+        .footer {
+            padding: 40px 0;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .footer-section {
+            width: 30%;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0px;
+            color: #333;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section ul li a {
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .footer-section ul li a:hover {
+            text-decoration: underline;
+        }
+        
+        .date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .hero {
+            padding: 20px 0;
+        }
+        
+        .hero-body {
+            padding: 40px 0;
+        }
+        
+        .columns {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .column {
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .has-text-centered {
+            text-align: center;
+        }
+        
+        .image-viewport {
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .image-viewport img {
+            max-width: 90%;
+            height: auto;
+            margin-top: 00px;
+        }
+        
+        .image-viewport2 img {
+            max-width: 90%;
+            height: auto;
+            margin-top: 00px;
+            /* margin-left: -110px; */
+        }
+
+        .publication-authors {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+        
+        .author-block {
+            margin-right: 5px;
+        }
+        
+        .link-block {
+            display: inline-block;
+            margin: 5px;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #0077cc;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .external-link {
+            text-decoration: none;
+        }
+        
+        .icon {
+            margin-right: 5px;
+        }
+        
+        video {
+            width: 100%;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background: #eee;
+            margin: 30px 0;
+        }
+        
+        .title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .is-size-6 {
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .header-text, .header-image {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .header-image {
+                margin-top: 30px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .footer-section {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+        
+        .bib-citation {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+
+        .bib-citation h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .publication-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .external-link {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .external-link:hover {
+            opacity: 0.8;
+        }
+        
+        .icon {
+            margin-right: 5px;
+        }
+        .custom-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #2c2c2c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-link i {
+    font-size: 1.1rem;
+}
+
+.btn-link:hover {
+    background-color: #444;
+    text-decoration: none;
+}
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div style="width: 100vw;">
+        <header>
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered", style="background-color: #ffffff;">
+                        <div class="image-viewport2">
+                            <img width="80%" src="static/imgs/arrow.svg" alt="title">
+                        </div>
+                        <h1 class="title is-4 conference-authors">
+                            <a target="_blank" href="", style="color: #333;">
+                                CVPR 2025
+                            </a>
+                        </h3>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Yanbang Li</a><sup>*</sup><sup>1</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Ziyang Gong</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Haoyang Li</a><sup>3</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Xiaoqi Huang</a><sup>4</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Haolan Kang</a><sup>5</sup>,
+                            </span> 
+                            <br>
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Guangping Bai</a><sup>6</sup>,
+                            </span>
+                            <span class="author-block">
+                                <a target="_blank" rel="noopener noreferrer" href="#">Xianzheng Ma</a><sup>6</sup>,
+                            </span>
+                        </div>
+                        <p style="font-size: 0.9rem; margin-top: 5px;">*Corresponding Author</p>
+                        
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block"><sup>1</sup>Imperial College London</span>
+                            <span class="author-block"><sup>2</sup>Shanghai AI Laboratory</span>
+                            <br>
+                            <span class="author-block"><sup>3</sup>UCSD</span>
+                            <span class="author-block"><sup>4</sup>VIVO</span>
+                            <span class="author-block"><sup>5</sup>South China University of Technology</span>
+                            <span class="author-block"><sup>6</sup>Independent Researcher</span>
+                        </div>
+                        
+                        <div class="custom-buttons">
+                            <a href="https://arxiv.org/abs/2505.00693" class="btn-link" target="_blank">
+                            <i class="fas fa-file-pdf"></i> Paper
+                            </a>
+                            <a href="https://arxiv.org/abs/2505.00693" class="btn-link" target="_blank">
+                            <i class="fas fa-code-branch"></i> arXiv
+                            </a>
+                            <a href="#" class="btn-link" target="_blank">
+                            <i class="fas fa-hand-paper" style="color: #FFD700;"></i> Code
+                            </a>
+                            <a href="rovi_supp.pdf" class="btn-link" target="_blank">
+                            <i class="fas fa-file-pdf"></i> Supp
+                            </a>
+                        </div>
+                            
+                        <br>
+                        <br>
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <div class="container is-max-widescreen" style="padding: 0px; margin-top: 20px;">
+        <video controls style="width: 100%; border-radius: 15px; aspect-ratio: 16/9; background-color: #666;">
+            <source src="static/video/ROVI_video.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div style="width: 100vw; background-color: #ffffff;">
+        <div class="container" style="background-color: #ffffff;">
+            <h1 class="title is-4 has-text-left has-text-weight-bold" style="padding-top: 20px;">Robotic Visual Instruction Demonstration Overview</h1>
+            <div class="image-viewport" style="display: flex; justify-content: center;">
+                <img src="static/imgs/teaser.jpg" style="text-align: center; width: 100%;">   
+            </div>
+            <p class="is-size-6 has-text-left" style="margin-top: 10px;">
+                Figure 1. (Left) Robotic visual instruction is a hand-drawn approach for commanding robots, utilizing circles and arrows to convey task
+                definition. In long-horizon tasks, green and blue sketches denote the first and second task steps, respectively. (Right) It illustrates the action
+                sequences output via VIEW. Our method exhibits robust generalization to real-world manipulation tasks, including (a) trajectory-following
+                tasks, (b) cluttered environments with disturbances, and (c) multi-step operations.
+            </p>
+            <br>
+            <h1 class="title is-4 has-text-left has-text-weight-bold">Abstract</h1>
+            <p class="is-size-6 has-text-left">
+                Recently, natural language has been the primary medium for human-robot interaction. 
+                However, its inherent lack of spatial precision for robotic control introduces challenges such as ambiguity and verbosity. To address these limitations, we introduce the <strong>Robotic Visual Instruction (RoVI)</strong>, a novel paradigm to guide robotic tasks through an object-centric, hand-drawn symbolic representation. RoVI effectively encodes spatial-temporal information into human-interpretable visual instructions through 2D sketches, utilizing arrows, circles, colors, and numbers to direct 3D robotic manipulation.
+                To enable robots to understand RoVI better and generate precise actions based on RoVI, we present <strong>Visual Instruction Embodied Workflow (VIEW)</strong>, a pipeline formulated for RoVI-conditioned policies.
+                This approach leverages Vision-Language Models (VLMs) to interpret RoVI inputs, decode spatial and temporal constraints from 2D pixel space via keypoint extraction, and then transform them into executable 3D action sequences.
+                We additionally curate a specialized dataset of 15K instances to fine-tune small VLMs for edge deployment, enabling them to effectively learn RoVI capabilities. 
+                Our approach is rigorously validated across 11 novel tasks in both real and simulated environments, demonstrating significant generalization capability. Notably, VIEW achieves an 87.5% success rate in real-world scenarios involving unseen tasks that feature multi-step actions, with disturbances, and trajectory-following requirements. Code and Datasets in this paper will be released soon.
+            </p>
+            <br>
+            <h1 class="title is-4 has-text-left has-text-weight-bold">Overview of VIEW</h1>
+            <div class="image-viewport" style="display: flex; justify-content: center;">
+                <img src="static/imgs/view.jpg" style="width: 100%;">   
+            </div>
+            <p class="is-size-6 has-text-left" style="margin-top: 10px;">
+                Figure 2. VIEW Architecture. This pipeline begins with a visual instruction drawn onto the initial observation. The VLM generates
+                hierarchical language-to-action outputs, including task definition, detailed planning, and executable functions. The executable functions
+                are then combined with keypoints extracted from the keypoint module and passed to a downstream low-level policy, which enables the
+                robotic arm to execute each action step-by-step. This approach bridges hand-drawn visual instructions with precise robotic actions.
+            </p>
+            <br>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="video-gallery">
+            <h2 class="section-title" style="border-bottom-width:0px; padding-top: 40px;">Manipulation Tasks</h2>
+            
+            <div class="video-row">
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo0.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Fold clothes</div>
+                </div>
+                
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo1.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Pour water</div>
+                </div>
+                
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo2.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Move the lemon along the path</div>
+                </div>
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo3.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Wipe the whiteboard</div>
+                </div>
+            </div>
+            
+            <div class="video-row">
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo5.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Set the table</div>
+                </div>
+                
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo7.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Pick up the banana into the box</div>
+                </div>
+                
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo8.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Pick up the bowl and pour the coffee beans into the bowl</div>
+                </div>
+                <div class="video-card", style="width: 23%;">
+                    <div class="video-container">
+                        <video>
+                            <source src="static/video/demo10.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-button" onclick="playVideo(this)"></div>
+                    </div>
+                    <div class="video-title">Recycle wastes</div>
+                </div>
+            </div>
+        </div>
+        <a style="color: #333;"> *ROVI only takes visual input, without using language instructions.  </a>
+        <p class="is-size-6 has-text-left" style="margin-top: 20px;">
+            
+        </p>
+    </div>
+
+    <div style="width: 100vw; background-color: #ffffff; padding-bottom: 20px; padding-top: 20px;">
+    
+        <div class="container">
+            <div class="bib-citation">
+                <h3>BibTeX</h3>
+                <code>
+                    @article{li2025robotic,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;title={Robotic Visual Instruction},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;author={Li, Yanbang and Gong, Ziyang and Li, Haoyang and Huang, Xiaoqi and Kang, Haolan and Bai, Guangping and Ma, Xianzheng},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;booktitle={arXiv preprint arXiv:2505.00693},<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;year={2025},<br>
+                    }
+                </code>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function playVideo(playButton) {
+            const videoContainer = playButton.closest('.video-container');
+            const video = videoContainer.querySelector('video');
+            
+            if (video.paused) {
+                video.play();
+                playButton.style.display = 'none';
+            } else {
+                video.pause();
+                playButton.style.display = 'flex';
+            }
+        }
+        
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.play-button')) {
+                const activeVideo = e.target.closest('.video-container').querySelector('video');
+                document.querySelectorAll('video').forEach(video => {
+                    if (video !== activeVideo && !video.paused) {
+                        video.pause();
+                        video.closest('.video-container').querySelector('.play-button').style.display = 'flex';
+                    }
+                });
+            }
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded successfully');
+        });
+    </script>
+</body>
+</html>
